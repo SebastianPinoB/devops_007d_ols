@@ -13,6 +13,13 @@ services:
     volumes:
       - db_data:/var/lib/mysql
 
+    # Healthcheck ultrabásico (una sola línea de comando)
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost"]
+      interval: 5s
+      timeout: 2s
+      retries: 5
+
   #Servicio backend
   backend:
     build:
@@ -27,7 +34,8 @@ services:
       SPRING_DATASOURCE_USERNAME: ${MYSQL_USER}
       SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD}
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
 volumes:
   db_data:
