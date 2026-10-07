@@ -24,7 +24,52 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '21' 
-          cache: 'maven'
+          cache: 'maven' # Configura automáticamente el caché de Maven sin necesitar actions/cache por separado
 
       - name: Ejecutar comandos de prueba
         run: echo "¡El pipeline se está ejecutando correctamente!"
+
+      # Paso 4: Construir el proyecto y ejecutar tests
+      - name: Ejecutar pruebas y generar reporte de JaCoCo
+        run: |
+          cd productos_ev1
+          mvn clean verify
+
+      # Paso 5: Publicar reporte de cobertura de JaCoCo
+      - name: Subir reporte de cobertura como artefacto
+        uses: actions/upload-artifact@v4
+        if: always() #Garantiza que suba el reporte incluso si falla algun test
+        with:
+          name: jacoco-report
+          path: productos_ev1/target/site/jacoco/
+    
+  build:
+    name: Build Jar
+    runs-on: ubuntu-latest
+    needs: prueba # Espera a que termine el job 'prueba' correctamente
+
+    steps:
+      # Paso 1: Checkout del repositorio
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
+
+      # Paso 2: Configurar JDK
+      - name: Configurar JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: 'maven'
+
+      # Paso 3: Construir el artefacto JAR
+      - name: Construir el artefacto JAR
+        run: |
+          cd productos_ev1
+          mvn clean package -DskipTests
+
+      # Paso 4: Subir artefacto JAR
+      - name: Subir artefacto JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-jar
+          path: productos_ev1/target/*.jar
