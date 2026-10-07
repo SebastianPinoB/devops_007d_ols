@@ -3,3 +3,6 @@ target/
 mvnw
 mvnw.cmd
 .env
+
+.idea/
+.vscode/
