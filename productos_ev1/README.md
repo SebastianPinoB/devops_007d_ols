@@ -30,3 +30,36 @@ El rol de la automatizacion dentro de un proceso de CI/CD a la hora de desarroll
 3. Configura Java JDK
 4. Ejecuta comandos de prueba
 5. Compila e instala dependencias con Maven
+
+
+# API REST Spring Boot - Proyecto Evaluación DevOps
+
+Este repositorio contiene una API REST en Spring Boot (Java 21)[cite: 2] con persistencia en MySQL 8, configurada e integrada bajo buenas prácticas de DevOps que incluyen containerización con Docker[cite: 2], orquestación local con Docker Compose (orden de arranque, healthcheck y volúmenes), y automatización de integración continua (CI) mediante GitHub Actions.
+
+---
+
+## Requisitos Previos
+
+Para ejecutar y probar este proyecto de forma local necesitarás:
+
+- [Git](https://git-scm.com/)
+- [Docker Engine](https://docs.docker.com/get-docker/) y [Docker Compose](https://docs.docker.com/compose/) (v2+)
+- [Java OpenJDK 21](https://adoptium.net/) y [Apache Maven 3.9+](https://maven.apache.org/) (opcional si deseas ejecutar el proyecto sin contenedores)
+
+---
+
+## Configuración de Variables de Entorno
+
+El proyecto utiliza un archivo de variables de entorno `.env` para evitar exponer credenciales en el código fuente.
+
+1. Crea un archivo `.env` en la raíz del proyecto basándote en la siguiente estructura[cite: 3]:
+
+```env
+# Variables MySQL
+MYSQL_ROOT_PASSWORD=root_password
+MYSQL_DATABASE=mydatabase
+MYSQL_USER=myuser
+MYSQL_PASSWORD=mypassword
+
+# Puerto backend
+BACKEND_PORT=8080
