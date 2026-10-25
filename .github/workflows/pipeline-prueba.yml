@@ -47,13 +47,13 @@ jobs:
         run: mvn clean verify
         working-directory: ./productos_ev1
 
-      # Nuevo Paso: Análisis de calidad con SonarCloud
+      # Paso analisis de calidad con el plugin completo de Sonar
       - name: Ejecutar análisis de SonarQube
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          mvn sonar:sonar \
+          mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
             -Dsonar.projectKey=sebastianpinob \
             -Dsonar.organization=sebastianpinob \
             -Dsonar.host.url=https://sonarcloud.io \
