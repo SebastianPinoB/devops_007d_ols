@@ -28,6 +28,8 @@
 	</scm>
 	<properties>
 		<java.version>21</java.version>
+		<sonar.organization>sebastianpinob</sonar.organization>
+		<sonar.projectKey>SebastianPinoB_devops_007d_ols</sonar.projectKey>
 	</properties>
 	<dependencies>
 		<dependency>
