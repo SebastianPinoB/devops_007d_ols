@@ -31,7 +31,7 @@ jobs:
         uses: snyk/actions/maven@master
         with:
           command: test
-          working-directory: ./productos_ev1
+          args: --file productos_ev1/pom.xml
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         continue-on-error: true
