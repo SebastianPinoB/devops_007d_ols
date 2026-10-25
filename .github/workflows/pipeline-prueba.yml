@@ -28,10 +28,8 @@ jobs:
 
         # Paso de Snyk
       - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/setup@master
-
-      - name: Run Snyk to check for vulnerabilities
-        run: snyk test --file=productos_ev1/pom.xml
+        run: snyk test -d --file=pom.xml
+        working-directory: ./productos_ev1
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         continue-on-error: true
