@@ -27,9 +27,12 @@ jobs:
           cache: 'maven' # Configura automáticamente el caché de Maven sin necesitar actions/cache por separado
 
         # Paso de Snyk
+      
       - name: Configurar Snyk CLI
         uses: snyk/actions/setup@master
-
+      - name: Dar permisos de ejecución a mvnw
+        run: chmod +x productos_ev1/mvnw
+        
       - name: Run Snyk to check for vulnerabilities
         run: snyk test -d --file=pom.xml
         working-directory: ./productos_ev1
