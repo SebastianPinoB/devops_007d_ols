@@ -73,6 +73,7 @@ jobs:
       # Paso 3: Construir el artefacto JAR
       - name: Construir el artefacto JAR
         run:  mvn clean package -DskipTests
+        working-directory: ./productos_ev1
 
       # Paso 4: Subir artefacto JAR
       - name: Subir artefacto JAR
