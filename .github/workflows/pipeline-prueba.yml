@@ -27,12 +27,11 @@ jobs:
           cache: 'maven' # Configura automáticamente el caché de Maven sin necesitar actions/cache por separado
 
         # Paso de Snyk
-      
       - name: Configurar Snyk CLI
         uses: snyk/actions/setup@master
       - name: Dar permisos de ejecución a mvnw
         run: chmod +x productos_ev1/mvnw
-        
+
       - name: Run Snyk to check for vulnerabilities
         run: snyk test -d --file=pom.xml
         working-directory: ./productos_ev1
@@ -46,6 +45,19 @@ jobs:
       # Paso 4: Construir el proyecto y ejecutar tests
       - name: Ejecutar pruebas y generar reporte de JaCoCo
         run: mvn clean verify
+        working-directory: ./productos_ev1
+
+      # Nuevo Paso: Análisis de calidad con SonarCloud
+      - name: Ejecutar análisis de SonarQube
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          mvn sonar:sonar \
+            -Dsonar.projectKey=sebastianpinob \
+            -Dsonar.organization=sebastianpinob \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.coverage.jacoco.xmlReportPath=target/site/jacoco/jacoco.xml
         working-directory: ./productos_ev1
 
       # Paso 5: Publicar reporte de cobertura de JaCoCo
