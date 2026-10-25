@@ -31,7 +31,7 @@ jobs:
         uses: snyk/actions/maven@master
         with:
           command: test
-          path: ./productos_ev1
+          working-directory: ./productos_ev1
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         continue-on-error: true
@@ -42,6 +42,7 @@ jobs:
       # Paso 4: Construir el proyecto y ejecutar tests
       - name: Ejecutar pruebas y generar reporte de JaCoCo
         run: mvn clean verify
+        working-directory: ./productos_ev1
 
       # Paso 5: Publicar reporte de cobertura de JaCoCo
       - name: Subir reporte de cobertura como artefacto
