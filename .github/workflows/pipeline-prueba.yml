@@ -56,8 +56,13 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-            -Dsonar.qualitygate.wait=true
+          if [ "${{ github.ref_name }}" = "main" ]; then
+            echo "Ejecutando análisis con Quality Gate estricto para MAIN..."
+            mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.qualitygate.wait=true
+          else
+            echo "Ejecutando análisis en rama secundaria (${{ github.ref_name }}) sin bloqueo de Quality Gate..."
+            mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.qualitygate.wait=false
+          fi
         working-directory: ./productos_ev1
 
       # Publicar reporte de cobertura de JaCoCo
